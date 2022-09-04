@@ -23,7 +23,6 @@ class Query(graphene.ObjectType):
         return db.query(models.Post).filter(models.Post.id == post_id).first()
 
 
-
 class CreateNewPost(graphene.Mutation):
     class Arguments:
         title = graphene.String(required=True)
