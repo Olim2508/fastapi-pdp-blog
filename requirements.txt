@@ -8,7 +8,7 @@ black==21.6b0
 click==8.0.1
 colorama==0.4.4
 fastapi==0.66.0
-graphene==2.1.8
+graphene
 graphene-sqlalchemy==2.3.0
 graphql-core==2.3.2
 graphql-relay==2.0.1

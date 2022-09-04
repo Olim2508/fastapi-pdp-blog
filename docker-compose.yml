@@ -24,5 +24,6 @@ services:
       - .:/app
     ports:
       - "8021:8000"
+    restart: always
     depends_on:
       - db
