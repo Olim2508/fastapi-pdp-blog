@@ -1,29 +1,19 @@
 version: "3.8"
 
 services:
+#  app:
+#    build:
+#      context: .
+#      dockerfile: docker/dev/web/Dockerfile
+#    ports:
+#      - "8021:8000"
+#    depends_on:
+#      - db
+#    restart: unless-stopped
   db:
-    image: postgres:13-alpine
-    ports:
-      - "5432:5432"
-    restart: always
+    image: postgres:13
     env_file:
-      - .env
-  pgadmin:
-    image: dpage/pgadmin4
-    env_file:
-      - .env
-    ports:
-      - "5050:80"
-    depends_on:
-      - db
-  app:
-    container_name: app
-    build: .
-    command: bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+      - docker/dev/env/.db.env
     volumes:
-      - .:/app
-    ports:
-      - "8021:8000"
+      - ./postgres-data:/var/lib/postgresql/data
     restart: always
-    depends_on:
-      - db
