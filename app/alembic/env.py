@@ -7,13 +7,17 @@ from dotenv import load_dotenv
 
 from alembic import context
 
+from db_conf import DATABASE_URL
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-load_dotenv(os.path.join(BASE_DIR, ".env"))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 config = context.config
 
-config.set_main_option("sqlalchemy.url", os.environ['DATABASE_URL'])
+def set_sqlalchemy_url():
+    config.set_main_option("sqlalchemy.url", DATABASE_URL)
+
+# config.set_main_option("sqlalchemy.url", DATABASE_URL)
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
@@ -22,7 +26,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 
 import models.base_class
-target_metadata = models.base_class.Base.meta_data
+target_metadata = models.base_class.Base.metadata
 # target_metadata = None
 
 # other values from the config, defined by the needs of env.py,
@@ -43,6 +47,7 @@ def run_migrations_offline():
     script output.
 
     """
+    set_sqlalchemy_url()
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -62,6 +67,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
+    set_sqlalchemy_url()
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",

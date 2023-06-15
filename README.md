@@ -11,7 +11,7 @@
 [//]: # (##### URL of Pg admin: [http://localhost:5050]&#40;http://localhost:5050&#41;)
 
 
-####Postgres db will run inside docker container
+#### Postgres db will run inside docker container
 #### For running the app:
 ```
 cd app
