@@ -7,15 +7,15 @@ from dotenv import load_dotenv
 
 from alembic import context
 
-from db_conf import DATABASE_URL
-
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# load_dotenv(os.path.join(BASE_DIR, ".env"))
+from db.db_conf import DATABASE_URL
+from db import Base
 
 config = context.config
 
+
 def set_sqlalchemy_url():
     config.set_main_option("sqlalchemy.url", DATABASE_URL)
+
 
 # config.set_main_option("sqlalchemy.url", DATABASE_URL)
 # Interpret the config file for Python logging.
@@ -24,15 +24,9 @@ fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-
-import models.base_class
-target_metadata = models.base_class.Base.metadata
 # target_metadata = None
 
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+target_metadata = Base.metadata
 
 
 def run_migrations_offline():

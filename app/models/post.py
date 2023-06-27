@@ -1,7 +1,7 @@
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.sql import func
 
-from app.db_conf import Base
+from db.base import Base
 
 
 class Post(Base):
