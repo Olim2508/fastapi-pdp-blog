@@ -18,10 +18,7 @@ class CategoryCreate(CategoryBase):
 
 # Properties to receive on item update
 class CategoryUpdate(CategoryBase):
-    id: str
-
-    class Config:
-        orm_mode = True
+    pass
 
 
 # Properties shared by models stored in DB

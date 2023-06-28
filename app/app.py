@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 
-from db_conf import db_session
-from endpoints.api_router import router
+# from db_conf import db_session
+# from db.db_conf import db_session
+from api.api_v1.api import api_router
 from fastapi.middleware.cors import CORSMiddleware
 
-db = db_session.session_factory()
+# db = db_session.session_factory()
 
 
 app = FastAPI(
@@ -13,7 +14,7 @@ app = FastAPI(
     openapi_url='/docs/openapi.json',
     servers=[
         {
-            "url": "http://127.0.0.1:8021",
+            "url": "http://127.0.0.1:8007",
             "description": "Local environment",
         },
         {
@@ -27,7 +28,7 @@ app = FastAPI(
     ],
 )
 
-app.include_router(router)
+app.include_router(api_router)
 
 
 app.add_middleware(
