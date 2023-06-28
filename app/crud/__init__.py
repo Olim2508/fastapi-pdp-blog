@@ -1,8 +1,5 @@
 from .crud_category import category
-
+from .crud_post import post
 
 from .base import CRUDBase
-from models.post import Post
-from schemas.post import PostCreate, PostUpdate
 
-post = CRUDBase[Post, PostCreate, PostUpdate](Post)

@@ -15,7 +15,7 @@
 #### For running the app:
 ```
 cd app
-uvicorn app:app --host 0.0.0.0 --reload
+uvicorn app:app --host 0.0.0.0 --port 8007 --reload
 ```
 
 ### Migration commands:

@@ -1,1 +1,2 @@
-from .post import Category, Post
+from .post import Post
+from .category import Category

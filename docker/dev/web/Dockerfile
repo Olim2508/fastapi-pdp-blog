@@ -20,7 +20,7 @@ RUN apk update && \
 
 COPY ["app/pyproject.toml", "app/poetry.lock", "$APP_HOME/"]
 
-RUN poetry config virtualenvs.create false && \
+RUN poetry core virtualenvs.create false && \
     poetry install --no-interaction --no-ansi
 
 COPY --chown=$USER:$USER ./docker/dev/web/entrypoints /

@@ -4,7 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from crud.base import CRUDBase
-from models.post import Category
+from models.category import Category
 from schemas.category import CategoryCreate, CategoryUpdate
 
 
