@@ -1,4 +1,3 @@
-
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
@@ -8,9 +7,7 @@ from schemas.post import PostCreate, PostUpdate
 
 
 class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
-    def create_(
-        self, db: Session, *, obj_in: PostCreate
-    ) -> Post:
+    def create_(self, db: Session, *, obj_in: PostCreate) -> Post:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data)
         db.add(db_obj)

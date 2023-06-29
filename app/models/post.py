@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -20,5 +20,3 @@ class Post(Base):
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     category_id = Column(Integer, ForeignKey("category.id"))
     category = relationship("Category", back_populates="posts")
-
-

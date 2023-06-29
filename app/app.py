@@ -1,9 +1,9 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # from db_conf import db_session
 # from db.db_conf import db_session
 from api.api_v1.api import api_router
-from fastapi.middleware.cors import CORSMiddleware
 
 # db = db_session.session_factory()
 

@@ -6,3 +6,6 @@ mg:
 
 m:
 	alembic revision -m ${mess} --autogenerate
+
+style:
+	flake8 . && black . && isort .

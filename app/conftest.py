@@ -1,4 +1,6 @@
 import pytest
+from endpoints.utils import save_file_to_aws
+from services.utils import get_db
 from sqlalchemy import create_engine
 from sqlalchemy_utils import create_database, database_exists
 
@@ -7,8 +9,6 @@ from starlette.testclient import TestClient
 
 from db import Base
 from db.session import DATABASE_TEST_URL, SessionLocal
-from endpoints.utils import save_file_to_aws
-from services.utils import get_db
 
 # TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 #

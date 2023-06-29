@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from core.config import config
+from sqlalchemy.orm import sessionmaker
 
+from core.config import config
 
 DATABASE_URL = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}".format(
     user=config.POSTGRES_USER,
@@ -12,10 +12,6 @@ DATABASE_URL = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}".form
 )
 
 
-engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True
-)
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-

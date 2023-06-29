@@ -1,12 +1,10 @@
 from typing import Any, List
-import schemas
-import crud
-import models
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-
+import crud
+import schemas
 from api import deps
 
 router = APIRouter()
