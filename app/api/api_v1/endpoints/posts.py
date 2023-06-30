@@ -46,3 +46,19 @@ def create_post(
     }
     post = crud.post.create_(db=db, obj_in=post_data)
     return post
+
+
+# @router.delete("/{id}", response_model=schemas.Post)
+# def delete_post(
+#     *,
+#     db: Session = Depends(deps.get_db),
+#     id: int,
+# ) -> Any:
+#     """
+#     Delete post.
+#     """
+#     post = crud.post.get(db=db, id=id)
+#     if not post:
+#         raise HTTPException(status_code=404, detail="Post not found")
+#     post = crud.post.remove(db=db, id=id)
+#     return post
