@@ -14,12 +14,12 @@ router = APIRouter()
 def create_category(
     *,
     db: Session = Depends(deps.get_db),
-    item_in: schemas.CategoryCreate,
+    category_in: schemas.CategoryCreate,
 ) -> Any:
     """
     Create new category.
     """
-    category = crud.category.create(db=db, obj_in=item_in)
+    category = crud.category.create(db=db, obj_in=category_in)
     return category
 
 

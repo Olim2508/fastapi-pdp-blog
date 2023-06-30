@@ -1,8 +1,9 @@
 from typing import Any, List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+import crud
 import schemas
 from api import deps
 
@@ -14,14 +15,34 @@ def read_posts(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    category: str = None,
 ) -> Any:
     """
     Retrieve items.
+    category is passed like category=1,2,3
     """
-    # if crud.user.is_superuser(current_user):
-    #     items = crud.item.get_multi(db, skip=skip, limit=limit)
-    # else:
-    #     items = crud.item.get_multi_by_owner(
-    #         db=db, owner_id=current_user.id, skip=skip, limit=limit
-    #     )
-    return []
+    category_id_list = category.split(",")
+    posts = crud.post.get_multi_by_category(db, skip=skip, limit=limit, category_ids=category_id_list)
+    return posts
+
+
+@router.post("/", response_model=schemas.Post)
+def create_post(
+    *,
+    db: Session = Depends(deps.get_db),
+    post_in: schemas.PostCreate,
+) -> Any:
+    """
+    Create new post.
+    """
+    category = crud.category.get(db=db, id=post_in.category)
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    post_data = {
+        'title': post_in.title,
+        'author': post_in.author,
+        'content': post_in.content,
+        'category': category,
+    }
+    post = crud.post.create_(db=db, obj_in=post_data)
+    return post

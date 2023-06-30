@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     EMAIL_SENDER: str = 'rahmatovolim3@gmail.com'
     ENV: str = 'LOCAL'
 
+    API_MAIN_PREFIx: str = '/api/v1'
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
