@@ -61,3 +61,18 @@ def delete_post(
         raise HTTPException(status_code=404, detail="Post not found")
     post = crud.post.remove(db=db, id=id)
     return post
+
+
+@router.get("/{id}", response_model=schemas.Post)
+def read_post(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: int,
+) -> Any:
+    """
+    Get post by ID.
+    """
+    post = crud.post.get(db=db, id=id)
+    if not post:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return post
