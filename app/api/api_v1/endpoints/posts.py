@@ -21,7 +21,7 @@ def read_posts(
     Retrieve items.
     category is passed like category=1,2,3
     """
-    category_id_list = category.split(",")
+    category_id_list = category.split(",") if category else []
     posts = crud.post.get_multi_by_category(db, skip=skip, limit=limit, category_ids=category_id_list)
     return posts
 

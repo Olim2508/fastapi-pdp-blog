@@ -31,5 +31,5 @@ alembic upgrade head
 
 Run formatting before making a commit
 ```
-cd app && flake8 && isort . black .
+cd app && flake8 . && isort . black .
 ```
