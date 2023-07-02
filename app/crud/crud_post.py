@@ -10,10 +10,9 @@ from schemas.post import PostCreate, PostUpdate
 
 
 class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
-    def create_(self, db: Session, *, obj_in: PostCreate) -> Post:
-        category = obj_in.pop("category")
+    def create_(self, db: Session, *, obj_in: PostCreate, category_id: int) -> Post:
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data, category=category)
+        db_obj = self.model(**obj_in_data, category_id=category_id)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
