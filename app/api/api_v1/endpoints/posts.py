@@ -76,3 +76,23 @@ def read_post(
     if not post:
         raise HTTPException(status_code=404, detail="Item not found")
     return post
+
+
+@router.put("/{id}", response_model=schemas.Post)
+def update_post(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: int,
+    post_in: schemas.PostUpdate,
+) -> Any:
+    """
+    Update post.
+    """
+    post = crud.post.get(db=db, id=id)
+    if not post:
+        raise HTTPException(status_code=404, detail="Item not found")
+    category = crud.category.get(db=db, id=post_in.category_id)
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    post = crud.post.update(db=db, db_obj=post, obj_in=post_in)
+    return post

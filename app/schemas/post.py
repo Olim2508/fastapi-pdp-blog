@@ -24,7 +24,7 @@ class PostCreate(PostBase):
 
 # Properties to receive on item update
 class PostUpdate(PostBase):
-    pass
+    category_id: int
 
 
 # Properties shared by models stored in DB
