@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from api.api_v1.endpoints import categories, posts, users, login
+from api.api_v1.endpoints import categories, login, posts, users
 from core.config import config
 
 api_router = APIRouter(prefix=config.API_MAIN_PREFIX)

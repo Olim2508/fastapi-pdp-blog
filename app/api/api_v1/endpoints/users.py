@@ -1,12 +1,11 @@
 from typing import Any
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
 import crud
 import schemas
-import models
 from api import deps
-from core.config import config
-from sqlalchemy.orm import Session
 
 router = APIRouter()
 
