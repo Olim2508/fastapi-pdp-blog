@@ -37,5 +37,5 @@ def create_refresh_token(subject: Union[str, Any], expires_delta: timedelta = No
         expires_delta = datetime.utcnow() + timedelta(minutes=config.REFRESH_TOKEN_EXPIRE_MINUTES)
 
     to_encode = {"exp": expires_delta, "sub": str(subject)}
-    encoded_jwt = jwt.encode(to_encode, config.REFRESH_TOKEN_EXPIRE_MINUTES, ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, config.SECRET_REFRESH_KEY, ALGORITHM)
     return encoded_jwt
