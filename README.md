@@ -19,6 +19,7 @@ uvicorn app:app --host 0.0.0.0 --port 8007 --reload
 ```
 
 ### Migration commands:
+#### After creating models, import that model inside models/__init__.py file, then run migration command 
 Create migrations file:
 ```
 alembic revision -m "Put message here ..." --autogenerate
