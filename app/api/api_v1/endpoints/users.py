@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 import crud
+import models
 import schemas
 from api import deps
 
@@ -31,3 +32,14 @@ def create_user(
     #         email_to=user_in.email, username=user_in.email, password=user_in.password
     #     )
     return user
+
+
+@router.get("/me", response_model=schemas.User)
+def read_user_me(
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
+) -> Any:
+    """
+    Get current user.
+    """
+    return current_user
