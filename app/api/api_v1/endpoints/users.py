@@ -11,7 +11,7 @@ from api import deps
 router = APIRouter()
 
 
-@router.post("/", response_model=schemas.User)
+@router.post("/register", response_model=schemas.User)
 def create_user(
     *,
     db: Session = Depends(deps.get_db),
