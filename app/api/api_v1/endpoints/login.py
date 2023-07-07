@@ -42,11 +42,6 @@ def refresh_token(*, db: Session = Depends(deps.get_db), refresh: schemas.TokenR
     """
     # Verify the refresh token
     try:
-        # refresh_token_payload = jwt.decode(
-        #     refresh.refresh_token,
-        #     config.SECRET_REFRESH_KEY,
-        #     algorithms=[security.ALGORITHM],
-        # )
         refresh_token_payload = jwt.decode(
             refresh.refresh_token, config.SECRET_REFRESH_KEY, algorithms=[security.ALGORITHM]
         )
