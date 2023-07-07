@@ -3,6 +3,7 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
+from jose import jwt
 from sqlalchemy.orm import Session
 
 import crud
@@ -15,7 +16,7 @@ from core.config import config
 router = APIRouter()
 
 
-@router.post("/login/", response_model=schemas.Token)
+@router.post("/login/", response_model=schemas.TokenAll)
 def login_access_token(db: Session = Depends(deps.get_db), form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
     """
     OAuth2 compatible token login, get an access token for future requests
@@ -34,7 +35,42 @@ def login_access_token(db: Session = Depends(deps.get_db), form_data: OAuth2Pass
     }
 
 
-@router.post("/login/token/verify", response_model=schemas.User)
+@router.post("/token/refresh", response_model=schemas.Token)
+def refresh_token(*, db: Session = Depends(deps.get_db), refresh: schemas.TokenRefresh) -> Any:
+    """
+    Retrieve a new access token using a refresh token.
+    """
+    # Verify the refresh token
+    try:
+        # refresh_token_payload = jwt.decode(
+        #     refresh.refresh_token,
+        #     config.SECRET_REFRESH_KEY,
+        #     algorithms=[security.ALGORITHM],
+        # )
+        refresh_token_payload = jwt.decode(
+            refresh.refresh_token, config.SECRET_REFRESH_KEY, algorithms=[security.ALGORITHM]
+        )
+        # token_data = schemas.TokenPayload(**refresh_token_payload)
+        user_id = refresh_token_payload.get("sub")
+        if user_id is None:
+            raise HTTPException(status_code=400, detail="Invalid refresh token")
+    except jwt.JWTError:
+        raise HTTPException(status_code=400, detail="Invalid refresh token")
+
+    # Retrieve the user associated with the refresh token
+    user = crud.user.get(db, id=user_id)
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+
+    # Generate a new access token
+    access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = security.create_access_token(user.id, expires_delta=access_token_expires)
+
+    # Return the new access token
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.post("/login/token/test", response_model=schemas.User)
 def test_token(current_user: models.User = Depends(deps.get_current_user)) -> Any:
     """
     Test access token
