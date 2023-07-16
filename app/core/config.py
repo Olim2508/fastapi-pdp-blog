@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     POSTGRES_PORT: str
     POSTGRES_DB: str
 
+    POSTGRES_POOL_SIZE: int = 30
+    POSTGRES_POOL_OVERFLOW: int = 30
+
     EMAIL_SENDER: str = 'rahmatovolim3@gmail.com'
     ENV: str = 'LOCAL'
 
@@ -22,6 +25,8 @@ class Settings(BaseSettings):
 
     EMAIL_TEMPLATES_DIR: str = "/app/email-templates/build"
     EMAILS_ENABLED: bool = False
+
+    EMAIL_TEST_USER: str = "test@gmail.com"
 
     class Config:
         env_file = ".env"

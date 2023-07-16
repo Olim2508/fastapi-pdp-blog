@@ -49,3 +49,4 @@ black==22.3.0
 passlib==1.7.4
 bcrypt==4.0.1
 fastapi-jwt-auth==0.5.0
+httpx==0.24.1
