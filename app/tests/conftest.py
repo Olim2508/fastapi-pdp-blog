@@ -1,4 +1,4 @@
-from typing import Dict, Generator
+from typing import Generator
 
 import pytest
 from fastapi.testclient import TestClient
@@ -6,8 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy_utils import create_database, database_exists
 
 from api.deps import get_db
-from app.db.session import SessionLocal, DATABASE_TEST_URL
 from app.app import app
+from app.db.session import DATABASE_TEST_URL, SessionLocal
 from db import Base
 
 
