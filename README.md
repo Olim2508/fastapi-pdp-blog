@@ -1,4 +1,4 @@
-# fastapi-graphql
+# fastapi-pdp-blog
 
 #### Run the local develop server:
 
