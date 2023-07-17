@@ -34,3 +34,8 @@ Run formatting before making a commit
 ```
 cd app && flake8 . && isort . black .
 ```
+
+Run tests before making commit
+```
+cd app && python -m pytest
+```

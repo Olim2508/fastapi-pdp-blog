@@ -5,7 +5,7 @@ __pycache__/
 postgres-data
 # C extensions
 *.so
-
+.run
 .idea
 # Distribution / packaging
 .Python
