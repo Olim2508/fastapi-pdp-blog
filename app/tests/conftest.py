@@ -1,14 +1,17 @@
-from typing import Generator
+from typing import Dict, Generator
 
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
 
 from api.deps import get_db
 from app.app import app
 from app.db.session import DATABASE_TEST_URL, SessionLocal
+from core.config import config
 from db import Base
+from tests.common import authentication_token_from_email
 
 
 @pytest.fixture(scope="session")
@@ -48,8 +51,6 @@ def client() -> Generator:
         yield c
 
 
-# @pytest.fixture(scope="module")
-# def normal_user_token_headers(client: TestClient, db: Session) -> Dict[str, str]:
-#     return authentication_token_from_email(
-#         client=client, email=config.EMAIL_TEST_USER, db=db
-#     )
+@pytest.fixture(scope="function")
+def normal_user_token_headers(client: TestClient, db: Session) -> Dict[str, str]:
+    return authentication_token_from_email(client=client, email=config.EMAIL_TEST_USER, db=db)
