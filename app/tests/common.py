@@ -19,17 +19,36 @@ def random_email() -> str:
     return f"{random_lower_string()}@{random_lower_string()}.com"
 
 
-def create_random_category(db: Session) -> models.Category:
-    title = random_lower_string()
-    category_in = schemas.CategoryCreate(title=title)
+def create_test_category(db: Session) -> models.Category:
+    category_in = schemas.CategoryCreate(title="sport")
     return crud.category.create(db, obj_in=category_in)
 
 
-def create_random_categories(db: Session):
+def create_test_categories(db: Session):
     for i in range(3):
-        title = random_lower_string()
-        category_in = schemas.CategoryCreate(title=title)
+        category_in = schemas.CategoryCreate(title=f"category {i}")
         crud.category.create(db, obj_in=category_in)
+
+
+def create_test_posts(db: Session):
+    category = create_test_category(db)
+    for i in range(3):
+        post_in = schemas.PostCreate(
+            title=f"How to be a Pirate series {i}",
+            author="Jack Sparrow",
+            content="Lorem ipsum dolor sit",
+        )
+        crud.post.create_(db, obj_in=post_in, category_id=category.id)
+
+
+def create_test_post(db: Session):
+    category = create_test_category(db)
+    post_in = schemas.PostCreate(
+        title="Awesome post",
+        author="John Snow",
+        content="Lorem ipsum dolor sit",
+    )
+    return crud.post.create_(db, obj_in=post_in, category_id=category.id)
 
 
 def create_test_user(db: Session):

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
@@ -18,17 +18,20 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
         db.refresh(db_obj)
         return db_obj
 
-    def get_multi_by_category(self, db: Session, *, category_ids: List, skip: int = 0, limit: int = 100) -> List[Post]:
+    def get_multi_by_category(self, db: Session, *, category_ids: List, skip: int = 0, limit: int = 100) -> Tuple:
+        query = db.query(self.model)
         if not category_ids:
-            return db.query(self.model).offset(skip).limit(limit).all()
-        return (
-            db.query(self.model)
-            .join(self.model.category)
-            .filter(Category.id.in_(category_ids))
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
+            posts = query.offset(skip).limit(limit)
+        else:
+            posts = (
+                query(self.model)
+                .join(self.model.category)
+                .filter(Category.id.in_(category_ids))
+                .offset(skip)
+                .limit(limit)
+            )
+        count = posts.count()
+        return posts.all(), count
 
 
 post = CRUDPost(Post)

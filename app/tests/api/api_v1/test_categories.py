@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from core.config import config
-from tests.common import create_random_categories, create_random_category
+from tests.common import create_test_categories, create_test_category
 
 
 def test_create_category(client: TestClient, db: Session) -> None:
@@ -18,7 +18,7 @@ def test_create_category(client: TestClient, db: Session) -> None:
 
 
 def test_read_categories(client: TestClient, db: Session) -> None:
-    create_random_categories(db)
+    create_test_categories(db)
     response = client.get(f"{config.API_MAIN_PREFIX}/category/")
     assert response.status_code == 200
     content = response.json()
@@ -26,7 +26,7 @@ def test_read_categories(client: TestClient, db: Session) -> None:
 
 
 def test_get_category(client: TestClient, db: Session) -> None:
-    category = create_random_category(db)
+    category = create_test_category(db)
     response = client.get(f"{config.API_MAIN_PREFIX}/category/{category.id}")
     assert response.status_code == 200
     content = response.json()

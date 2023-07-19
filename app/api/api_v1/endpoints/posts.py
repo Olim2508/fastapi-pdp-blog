@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -10,7 +10,7 @@ from api import deps
 router = APIRouter()
 
 
-@router.get("/", response_model=List[schemas.Post])
+@router.get("/")
 def read_posts(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
@@ -22,8 +22,8 @@ def read_posts(
     category is passed like category=1,2,3
     """
     category_id_list = category.split(",") if category else []
-    posts = crud.post.get_multi_by_category(db, skip=skip, limit=limit, category_ids=category_id_list)
-    return posts
+    posts, count = crud.post.get_multi_by_category(db, skip=skip, limit=limit, category_ids=category_id_list)
+    return {"count": count, "result": posts}
 
 
 @router.post("/", response_model=schemas.Post)

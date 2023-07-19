@@ -19,7 +19,14 @@ class PostCreate(PostBase):
     title: str
     author: str
     content: str
-    category: int
+    category: Category | int = None
+
+
+class PostCreateDB(PostBase):
+    title: str
+    author: str
+    content: str
+    category: Category | int
 
 
 # Properties to receive on item update
