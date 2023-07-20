@@ -2,7 +2,7 @@ FROM python:3.10.4-alpine3.15
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    TZ=Europe/Kiev \
+    TZ=Asia/Tashkent \
     LANG=C.UTF-8 \
     APP_HOME=/usr/src/web
 
@@ -20,8 +20,12 @@ RUN apk update && \
 
 COPY ["app/pyproject.toml", "app/poetry.lock", "$APP_HOME/"]
 
-RUN poetry core virtualenvs.create false && \
-    poetry install --no-interaction --no-ansi
+COPY ./app/requirements.txt $APP_HOME
+
+# todo fix poetry installing deps
+# RUN poetry install
+
+RUN pip install -r requirements.txt
 
 COPY --chown=$USER:$USER ./docker/dev/web/entrypoints /
 COPY --chown=$USER:$USER ./app $APP_HOME
