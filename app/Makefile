@@ -8,4 +8,4 @@ m:
 	alembic revision -m ${mess} --autogenerate
 
 style:
-	flake8 . && black . && isort .
+	black . && isort . && flake8 .
