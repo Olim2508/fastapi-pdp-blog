@@ -6,3 +6,9 @@ migrate:
 
 m:
 	cd app && alembic revision -m ${mess} --autogenerate
+
+up:
+	docker-compose up -d
+
+logs:
+	docker-compose logs -f app
