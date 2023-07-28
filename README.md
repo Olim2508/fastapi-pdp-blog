@@ -4,7 +4,7 @@
 
     docker-compose up -d --build
   
-##### Server will bind 8007 port. You can get access to server by browser [http://localhost:8007](http://localhost:8007)
+##### Server will bind in address [http://fastapi.localhost:8009](http://fastapi.localhost:8009).
 
 
 
@@ -12,7 +12,7 @@
 
 ```
 cd app
-uvicorn app:app --host 0.0.0.0 --port 8007 --reload
+uvicorn app:app --host 0.0.0.0 --port 8009 --reload
 ```
 
 ### Migration commands:
