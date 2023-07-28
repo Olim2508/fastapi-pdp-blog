@@ -13,7 +13,7 @@ ARG UID=1000
 ARG USER=ubuntu
 
 RUN apk update && \
-    apk add --no-cache curl postgresql-dev gcc python3-dev musl-dev openssl libffi-dev openssl-dev build-base alembic && \
+    apk add --no-cache curl postgresql-dev gcc python3-dev musl-dev openssl libffi-dev openssl-dev netcat-openbsd build-base alembic && \
     pip install --upgrade pip setuptools poetry && \
     addgroup -g $GID -S $USER && \
     adduser -S $USER -G $USER --uid "$UID"
@@ -35,6 +35,8 @@ RUN chmod +x /*.sh && \
     chown -R $USER:$USER $APP_HOME
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+EXPOSE 8000
 
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--reload"]
 

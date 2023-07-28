@@ -10,5 +10,12 @@ m:
 up:
 	docker-compose up -d
 
+up_prod:
+	docker-compose -f docker-compose.prod.yml up -d --build
+
 logs:
 	docker-compose logs -f app
+
+
+down:
+	docker-compose down

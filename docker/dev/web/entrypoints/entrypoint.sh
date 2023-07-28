@@ -2,10 +2,11 @@
 
 #python backend_pre_start.py
 
-echo "Waiting for postgres connection"
+echo "Waiting for postgres connection..."
 
 while ! nc -z db 5432; do
-    sleep 0.1
+    echo "not available yet, waiting for 1 sec"
+    sleep 1
 done
 
 echo "PostgreSQL started"
