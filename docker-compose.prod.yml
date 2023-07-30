@@ -13,7 +13,9 @@ services:
       - db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.fastapi.rule=Host(`fastapi.localhost`)"
+      - "traefik.http.routers.fastapi.rule=Host(`fastapi-backend.olim-rakhmatov.site`)"
+      - "traefik.http.routers.fastapi.tls=true"
+      - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
     volumes:
       - ./app/:/usr/src/web/
     restart: unless-stopped
@@ -29,13 +31,25 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     restart: always
   traefik:
-    image: traefik:v2.9.6
+    build:
+      context: .
+      dockerfile: docker/prod/web/traefik.Dockerfile
     ports:
-      - 8017:80
-      - 8081:8080
+      - 80:80
+      - 443:443
     volumes:
-      - "./traefik.dev.toml:/etc/traefik/traefik.toml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik-public-certificates:/certificates"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`fastapi-traefik-dashboard.olim-rakhmatov.site`) && (PathPrefix(`/`)"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=testuser:$$apr1$$jIKW.bdS$$eKXe4Lxjgy/rH65wP1iQe1"
+    networks:
+      - separated_network
 
 volumes:
   postgres_data:
