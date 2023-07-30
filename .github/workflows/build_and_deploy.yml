@@ -1,0 +1,49 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: docker build -t olim2508/fastapi-pdp-blog:latest -f docker/prod/web/prod.Dockerfile .
+
+      - name: Push Docker Image to Docker Hub
+        run: docker push olim2508/fastapi-pdp-blog:latest
+
+  deploy:
+    name: Deploy FastAPI
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Connect to Remote Server
+          uses: appleboy/ssh-action@master
+          with:
+            host: ec2-user@ec2-107-20-197-230.compute-1.amazonaws.com
+            username: ec2-user
+            key: ${{ secrets.SSH_SECRET_KEY }}
+
+      - name: Pull Docker Image on Remote Server
+          run: |
+            docker login -u olim2508 -p ${{ secrets.DOCKER_PASSWORD }}
+            docker pull olim2508/fastapi-pdp-blog:latest
+
+      - name: Deploy with Docker Compose on Remote Server
+          run: |
+            cd fastapi-pdp-blog
+            docker-compose -f docker-compose.prod.yml up -d
+
