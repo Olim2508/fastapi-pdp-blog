@@ -23,7 +23,9 @@ jobs:
         run: docker build -t olim2508/fastapi-pdp-blog:latest -f docker/prod/web/prod.Dockerfile .
 
       - name: Push Docker Image to Docker Hub
-        run: docker push olim2508/fastapi-pdp-blog:latest
+        run: |
+          docker login -u $${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push olim2508/fastapi-pdp-blog:latest
 
   deploy:
     name: Deploy FastAPI
@@ -39,7 +41,7 @@ jobs:
 
       - name: Pull Docker Image on Remote Server
         run: |
-          docker login -u olim2508 -p ${{ secrets.DOCKER_PASSWORD }}
+          docker login -u $${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker pull olim2508/fastapi-pdp-blog:latest
 
       - name: Deploy with Docker Compose on Remote Server
