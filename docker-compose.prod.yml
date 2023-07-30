@@ -13,7 +13,7 @@ services:
       - db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.fastapi.rule=Host(`fastapi-backend.olim-rakhmatov.site`)"
+      - "traefik.http.routers.fastapi.rule=Host(`olim-rakhmatov.site`)"
       - "traefik.http.routers.fastapi.tls=true"
       - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
     volumes:
