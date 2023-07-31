@@ -38,16 +38,20 @@ jobs:
           host: ec2-107-20-197-230.compute-1.amazonaws.com
           username: ec2-user
           key: ${{ secrets.SSH_SECRET_KEY }}
-          script: whoami
+          script: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:latest
+            cd /home/ec2-user/fastapi-pdp-blog
+            docker-compose -f docker-compose.prod.yml up -d
 
-      - name: Pull Docker Image on Remote Server
-        run: |
-           docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:latest
-#          docker login -u $${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-#          docker pull olim2508/fastapi-pdp-blog:latest
-
-      - name: Deploy with Docker Compose on Remote Server
-        run: |
-          pwd
-          cd /home/ec2-user/fastapi-pdp-blog
-          docker-compose -f docker-compose.prod.yml up -d
+#      - name: Pull Docker Image on Remote Server
+#        run: |
+#           docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:latest
+##          docker login -u $${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+##          docker pull olim2508/fastapi-pdp-blog:latest
+#
+#      - name: Deploy with Docker Compose on Remote Server
+#        run: |
+#          mkdir -p /home/ec2-user/fastapi-pdp-blog
+#          cd /home/ec2-user/fastapi-pdp-blog
+#          docker-compose -f docker-compose.prod.yml up -d
