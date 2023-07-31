@@ -82,3 +82,8 @@ def delete_category(
         raise HTTPException(status_code=404, detail="Category not found")
     category = crud.category.remove(db=db, id=id)
     return category
+
+
+@router.get("/test-api")
+def get_test_api() -> Any:
+    return []
