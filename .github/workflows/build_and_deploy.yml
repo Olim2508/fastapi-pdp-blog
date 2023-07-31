@@ -20,12 +20,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t olim2508/fastapi-pdp-blog:latest -f docker/prod/web/prod.Dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:latest -f docker/prod/web/prod.Dockerfile .
 
       - name: Push Docker Image to Docker Hub
         run: |
-          docker login -u Olim2508 -p Olim2508!
-          docker push olim2508/fastapi-pdp-blog:latest
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:latest
 
 #  deploy:
 #    name: Deploy FastAPI
