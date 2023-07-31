@@ -48,5 +48,6 @@ jobs:
 
       - name: Deploy with Docker Compose on Remote Server
         run: |
+          pwd
           cd /home/ec2-user/fastapi-pdp-blog
           docker-compose -f docker-compose.prod.yml up -d
