@@ -29,6 +29,7 @@ jobs:
 
       - name: Build Docker Images
         run: |
+          echo $APP_IMAGE
           docker pull $APP_IMAGE || true
           docker pull $TRAEFIK_IMAGE || true
           docker-compose -f prod.ci.yml build
