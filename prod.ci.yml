@@ -27,7 +27,7 @@ services:
   db:
     image: postgres:13
     env_file:
-      - docker/prod/env/.db.env
+      - .env
     networks:
       - separated_network
     volumes:
