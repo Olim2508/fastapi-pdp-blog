@@ -32,14 +32,14 @@ jobs:
           docker pull $APP_IMAGE || true
           docker pull $TRAEFIK_IMAGE || true
           docker-compose -f prod.ci.yml build
-#          docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app -f docker/prod/web/prod.Dockerfile .
+          # docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app -f docker/prod/web/prod.Dockerfile .
 
       - name: Push Docker Images to Docker Hub
         run: |
-           docker push $IMAGE:app
-           docker push $IMAGE:traefik
-#          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-#          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app
+          docker push $IMAGE:app
+          docker push $IMAGE:traefik
+          # docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          # docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app
 
 #  deploy:
 #    name: Deploy FastAPI
