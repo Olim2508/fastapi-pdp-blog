@@ -20,12 +20,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Add Env Variables
-          run: |
-            export IMAGE=${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog
-            export APP_IMAGE=$IMAGE:app
-            export TRAEFIK_IMAGE=$IMAGE:traefik
-            chmod +x ./setup_env.sh
-            bash ./setup_env.sh
+        run: |
+          export IMAGE=${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog
+          export APP_IMAGE=$IMAGE:app
+          export TRAEFIK_IMAGE=$IMAGE:traefik
+          chmod +x ./setup_env.sh
+          bash ./setup_env.sh
 
       - name: Build Docker Images
         run: |
@@ -36,8 +36,8 @@ jobs:
 
       - name: Push Docker Images to Docker Hub
         run: |
-          docker push $IMAGE:app
-          docker push $IMAGE:traefik
+          docker push $APP_IMAGE
+          docker push $TRAEFIK_IMAGE
           # docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           # docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app
 
@@ -61,7 +61,7 @@ jobs:
 
 #      - name: Pull Docker Image on Remote Server
 #        run: |
-#           docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:latest
+#          docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:latest
 ##          docker login -u $${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 ##          docker pull olim2508/fastapi-pdp-blog:latest
 #
