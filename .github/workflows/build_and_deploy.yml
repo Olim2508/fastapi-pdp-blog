@@ -5,6 +5,12 @@ on:
     branches:
       - master
 
+env:  # Set environment variables
+  IMAGE: ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog
+  APP_IMAGE: ${{ env.IMAGE }}:app
+  TRAEFIK_IMAGE: ${{ env.IMAGE }}:traefik
+
+
 jobs:
   build:
     name: Build Docker Image
@@ -21,24 +27,20 @@ jobs:
 
       - name: Add Env Variables
         run: |
-          export IMAGE=${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog
-          export APP_IMAGE=$IMAGE:app
-          export TRAEFIK_IMAGE=$IMAGE:traefik
           chmod +x ./setup_env.sh
           bash ./setup_env.sh
 
       - name: Build Docker Images
         run: |
-          echo $APP_IMAGE
-          docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app || true
-          docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:traefik || true
+          docker pull $APP_IMAGE || true
+          docker pull $TRAEFIK_IMAGE || true
           docker-compose -f prod.ci.yml build
           # docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app -f docker/prod/web/prod.Dockerfile .
 
       - name: Push Docker Images to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app || true
-          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:traefik || true
+          docker push $APP_IMAGE
+          docker push $TRAEFIK_IMAGE
           # docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           # docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app
 
