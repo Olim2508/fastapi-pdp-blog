@@ -30,8 +30,8 @@ jobs:
       - name: Build Docker Images
         run: |
           echo $APP_IMAGE
-          docker pull $APP_IMAGE || true
-          docker pull $TRAEFIK_IMAGE || true
+          docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app || true
+          docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:traefik || true
           docker-compose -f prod.ci.yml build
           # docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app -f docker/prod/web/prod.Dockerfile .
 
