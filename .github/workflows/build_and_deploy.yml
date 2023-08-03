@@ -37,8 +37,8 @@ jobs:
 
       - name: Push Docker Images to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app
-          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:traefik
+          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app || true
+          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:traefik || true
           # docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           # docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app
 
