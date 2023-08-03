@@ -45,7 +45,7 @@ jobs:
   deploy:
     name: Deploy FastAPI
     runs-on: ubuntu-latest
-    needs: build
+#    needs: build
     steps:
       - name: Set up ssh and Deploy
         run: |
