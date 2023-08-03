@@ -5,16 +5,14 @@ on:
     branches:
       - master
 
-env:  # Set environment variables
-  IMAGE: ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog
-  APP_IMAGE: ${{ env.IMAGE }}:app
-  TRAEFIK_IMAGE: ${{ env.IMAGE }}:traefik
-
-
 jobs:
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
+    env:
+      IMAGE: ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog
+      APP_IMAGE: ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:app
+      TRAEFIK_IMAGE: ${{ secrets.DOCKER_USERNAME }}/fastapi-pdp-blog:traefik
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
