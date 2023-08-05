@@ -18,11 +18,7 @@ app = FastAPI(
             "description": "Local environment",
         },
         {
-            "url": "https://api.stage.my-blog.com",
-            "description": "STAGE environment",
-        },
-        {
-            "url": "https://api.my-blog.com",
+            "url": "https://fastapi-backend.olim.space",
             "description": "PROD environment",
         },
     ],
@@ -38,4 +34,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-print("hello world-----")
