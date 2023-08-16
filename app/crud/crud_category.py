@@ -31,3 +31,4 @@ category = CRUDCategory(Category)
 
 
 test = "test commit"
+test_2 = "test for rebase 2"
