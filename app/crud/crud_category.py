@@ -28,3 +28,6 @@ class CRUDCategory(CRUDBase[Category, CategoryCreate, CategoryUpdate]):
 
 
 category = CRUDCategory(Category)
+
+
+test = "test commit"
