@@ -23,7 +23,21 @@ def read_posts(
     """
     category_id_list = category.split(",") if category else []
     posts, count = crud.post.get_multi_by_category(db, skip=skip, limit=limit, category_ids=category_id_list)
-    return {"count": count, "result": posts}
+
+    posts_data = [
+        {
+            "id": post.id,
+            "title": post.title,
+            "author": post.author,
+            "category": {
+                "id": post.category.id,
+                "title": post.category.title,
+            },
+            "created_at": post.time_created,
+        }
+        for post in posts
+    ]
+    return {"count": count, "result": posts_data}
 
 
 @router.post("/", response_model=schemas.Post)
@@ -74,7 +88,7 @@ def read_post(
     """
     post = crud.post.get(db=db, id=id)
     if not post:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail="Post not found")
     return post
 
 
@@ -90,7 +104,7 @@ def update_post(
     """
     post = crud.post.get(db=db, id=id)
     if not post:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail="Post not found")
     category = crud.category.get(db=db, id=post_in.category_id)
     if not category:
         raise HTTPException(status_code=404, detail="Category not found")

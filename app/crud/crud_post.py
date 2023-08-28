@@ -1,7 +1,7 @@
 from typing import List, Tuple
 
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from crud.base import CRUDBase
 from models import Category
@@ -30,6 +30,7 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
                 .offset(skip)
                 .limit(limit)
             )
+        posts = posts.options(joinedload(self.model.category))
         count = posts.count()
         return posts.all(), count
 
