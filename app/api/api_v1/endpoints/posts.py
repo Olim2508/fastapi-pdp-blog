@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 import crud
 import schemas
 from api import deps
+from api.api_v1.utils import get_category_data
 
 router = APIRouter()
 
@@ -29,10 +30,7 @@ def read_posts(
             "id": post.id,
             "title": post.title,
             "author": post.author,
-            "category": {
-                "id": post.category.id,
-                "title": post.category.title,
-            },
+            "category": get_category_data(post),
             "created_at": post.time_created,
         }
         for post in posts
