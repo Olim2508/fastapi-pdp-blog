@@ -103,7 +103,7 @@ def update_post(
     post = crud.post.get(db=db, id=id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
-    category = crud.category.get(db=db, id=post_in.category_id)
+    category = crud.category.get(db=db, id=post_in.category)
     if not category:
         raise HTTPException(status_code=404, detail="Category not found")
     post = crud.post.update(db=db, db_obj=post, obj_in=post_in)
