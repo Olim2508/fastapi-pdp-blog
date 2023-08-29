@@ -1,7 +1,7 @@
 
 [entryPoints]
   [entryPoints.app]
-    address = ":80"
+    address = ":8080"
   [entryPoints.app.http]
     [entryPoints.app.http.redirections]
       [entryPoints.app.http.redirections.entryPoint]
