@@ -41,7 +41,7 @@ services:
 #        - "${TRAEFIK_IMAGE}"
 #    image: "${TRAEFIK_IMAGE}"
     ports:
-      - 8080:80
+      - 9000:80
       - 443:443
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
