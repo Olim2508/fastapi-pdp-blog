@@ -18,5 +18,5 @@ class Post(Base):
     author = Column(String)
     content = Column(String)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
-    category_id = Column(Integer, ForeignKey("category.id"))
+    category_id = Column(Integer, ForeignKey("category.id", ondelete="CASCADE"))
     category = relationship("Category", back_populates="posts")

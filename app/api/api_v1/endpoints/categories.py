@@ -78,6 +78,7 @@ def delete_category(
     Delete an item.
     """
     category = crud.category.get(db=db, id=id)
+    crud.post.delete_posts_of_category(db=db, category=category)
     if not category:
         raise HTTPException(status_code=404, detail="Category not found")
     category = crud.category.remove(db=db, id=id)
