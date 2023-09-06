@@ -1,3 +1,5 @@
+from typing import Dict
+
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -5,24 +7,22 @@ from core.config import config
 from tests.common import create_test_category, create_test_post, create_test_posts
 
 
-def test_create_post(client: TestClient, db: Session) -> None:
+def test_create_post(client: TestClient, db: Session, normal_user_token_headers: Dict[str, str]) -> None:
     category = create_test_category(db)
     data = {
         "title": "Foo",
-        "author": "Jack",
         "content": "Test content",
         "category": category.id,
     }
     response = client.post(
         f"{config.API_MAIN_PREFIX}/post/",
         json=data,
+        headers=normal_user_token_headers,
     )
     assert response.status_code == 200
     content = response.json()
-    print(content)
     assert content["title"] == data["title"]
-    assert content["author"] == data["author"]
-    assert content["category"]['id'] == category.id
+    assert content["category_id"] == category.id
     assert "id" in content
 
 
@@ -42,5 +42,6 @@ def test_get_post(client: TestClient, db: Session) -> None:
     response = client.get(f"{config.API_MAIN_PREFIX}/post/{post.id}")
     assert response.status_code == 200
     content = response.json()
+    print(content)
     assert content["title"] == post.title
     assert content["id"] == post.id
