@@ -9,22 +9,22 @@ from schemas import Category
 
 class PostBase(BaseModel):
     title: Optional[str] = None
-    author: Optional[str] = None
+    # author: Optional[str] = None
     content: Optional[str] = None
-    time_created: Optional[datetime] = None
+    # time_created: Optional[datetime] = None
 
 
-# Properties to receive on item creation
+# Properties to receive on post creation
 class PostCreate(PostBase):
     title: str
-    author: str
+    # author: str
     content: str
     category: Category | int = None
 
 
 class PostCreateDB(PostBase):
     title: str
-    author: str
+    # author: str
     content: str
     category: Category | int
 
@@ -38,7 +38,7 @@ class PostUpdate(PostBase):
 class PostInDBBase(PostBase):
     id: int
     title: str
-    author: str
+    # author: str
     content: str
 
     class Config:
@@ -48,6 +48,7 @@ class PostInDBBase(PostBase):
 # Properties to return to client
 class Post(PostInDBBase):
     category: Category | None = None
+    # author: User | None = None
 
 
 # Properties stored in DB

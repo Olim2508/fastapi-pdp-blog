@@ -32,23 +32,24 @@ def create_test_categories(db: Session):
 
 def create_test_posts(db: Session):
     category = create_test_category(db)
+    author = create_test_user(db)
     for i in range(3):
         post_in = schemas.PostCreate(
             title=f"How to be a Pirate series {i}",
-            author="Jack Sparrow",
             content="Lorem ipsum dolor sit",
         )
-        crud.post.create_(db, obj_in=post_in, category_id=category.id)
+        crud.post.create_(db, obj_in=post_in, category_id=category.id, author_id=author.id)
 
 
 def create_test_post(db: Session):
     category = create_test_category(db)
+    author = create_test_user(db)
     post_in = schemas.PostCreate(
         title="Awesome post",
-        author="John Snow",
+        # author="John Snow",
         content="Lorem ipsum dolor sit",
     )
-    return crud.post.create_(db, obj_in=post_in, category_id=category.id)
+    return crud.post.create_(db, obj_in=post_in, category_id=category.id, author_id=author.id)
 
 
 def create_test_user(db: Session):

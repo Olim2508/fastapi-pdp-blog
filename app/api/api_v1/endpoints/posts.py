@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 import crud
+import models
 import schemas
 from api import deps
 from api.api_v1.utils import get_category_data
@@ -31,17 +32,18 @@ def read_posts(
             "title": post.title,
             "author": post.author,
             "category": get_category_data(post),
-            "created_at": post.time_created,
+            "created_at": post.created_at,
         }
         for post in posts
     ]
     return {"count": count, "result": posts_data}
 
 
-@router.post("/", response_model=schemas.Post)
+@router.post("/")
 def create_post(
     *,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_user),
     post_in: schemas.PostCreate,
 ) -> Any:
     """
@@ -52,10 +54,10 @@ def create_post(
         raise HTTPException(status_code=404, detail="Category not found")
     post_data = {
         'title': post_in.title,
-        'author': post_in.author,
+        # 'author': post_in.author,
         'content': post_in.content,
     }
-    post = crud.post.create_(db=db, obj_in=post_data, category_id=category.id)
+    post = crud.post.create_(db=db, obj_in=post_data, category_id=category.id, author_id=current_user.id)
     return post
 
 

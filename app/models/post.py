@@ -5,18 +5,20 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from db.base import Base
+from .base import CreateUpdateDate
 
 if TYPE_CHECKING:
     from .category import Category  # noqa: F401
+    from .user import User  # noqa: F401
 
 
-class Post(Base):
+class Post(Base, CreateUpdateDate):
     __tablename__ = 'post'
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
-    author = Column(String)
     content = Column(String)
-    time_created = Column(DateTime(timezone=True), server_default=func.now())
+    author_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
+    author = relationship("User", back_populates="posts")
     category_id = Column(Integer, ForeignKey("category.id", ondelete="CASCADE"))
     category = relationship("Category", back_populates="posts")
