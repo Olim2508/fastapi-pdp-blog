@@ -57,7 +57,7 @@ def create_post(
         # 'author': post_in.author,
         'content': post_in.content,
     }
-    post = crud.post.create_(db=db, obj_in=post_data, category_id=category.id, author_id=current_user.id)
+    post = crud.post.create_(db=db, obj_in=post_data, category=category, author_id=current_user.id)
     return post
 
 
@@ -110,3 +110,17 @@ def update_post(
         raise HTTPException(status_code=404, detail="Category not found")
     post = crud.post.update(db=db, db_obj=post, obj_in=post_in)
     return post
+
+
+@router.get("/user-posts/")
+def get_user_posts(
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    current_user: models.User = Depends(deps.get_current_user),
+) -> Any:
+    posts, count = crud.post.get_multi_by_user(db, skip=skip, limit=limit, user=current_user)
+    return {
+        "count": count,
+        "result": posts,
+    }

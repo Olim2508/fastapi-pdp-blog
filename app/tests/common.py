@@ -9,6 +9,7 @@ import crud
 import models
 import schemas
 from core.config import config
+from models import User
 
 
 def random_lower_string() -> str:
@@ -30,15 +31,16 @@ def create_test_categories(db: Session):
         crud.category.create(db, obj_in=category_in)
 
 
-def create_test_posts(db: Session):
+def create_test_posts(db: Session, author=None):
     category = create_test_category(db)
-    author = create_test_user(db)
+    if not author:
+        author = create_test_user(db)
     for i in range(3):
         post_in = schemas.PostCreate(
             title=f"How to be a Pirate series {i}",
             content="Lorem ipsum dolor sit",
         )
-        crud.post.create_(db, obj_in=post_in, category_id=category.id, author_id=author.id)
+        crud.post.create_(db, obj_in=post_in, category=category, author_id=author.id)
 
 
 def create_test_post(db: Session):
@@ -46,10 +48,9 @@ def create_test_post(db: Session):
     author = create_test_user(db)
     post_in = schemas.PostCreate(
         title="Awesome post",
-        # author="John Snow",
         content="Lorem ipsum dolor sit",
     )
-    return crud.post.create_(db, obj_in=post_in, category_id=category.id, author_id=author.id)
+    return crud.post.create_(db, obj_in=post_in, category=category, author_id=author.id)
 
 
 def create_test_user(db: Session):
