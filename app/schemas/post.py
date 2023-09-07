@@ -6,25 +6,24 @@ from pydantic import BaseModel
 # Shared properties
 from schemas import Category
 
+# todo fix circular import and import user like "from schemas import User" this
+from .user import User
+
 
 class PostBase(BaseModel):
     title: Optional[str] = None
-    # author: Optional[str] = None
     content: Optional[str] = None
-    # time_created: Optional[datetime] = None
 
 
 # Properties to receive on post creation
 class PostCreate(PostBase):
     title: str
-    # author: str
     content: str
     category: Category | int = None
 
 
 class PostCreateDB(PostBase):
     title: str
-    # author: str
     content: str
     category: Category | int
 
@@ -48,7 +47,7 @@ class PostInDBBase(PostBase):
 # Properties to return to client
 class Post(PostInDBBase):
     category: Category | None = None
-    # author: User | None = None
+    author: User | None = None
 
 
 # Properties stored in DB

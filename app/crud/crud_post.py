@@ -4,16 +4,19 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session, joinedload
 
 from crud.base import CRUDBase
-from models import Category
+from models import Category, User
 from models.post import Post
 from schemas.post import PostCreate, PostUpdate
 
 
 class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
     # todo refactor this method to get category_id and user_id inside PostCreate scheme
-    def create_(self, db: Session, *, obj_in: PostCreate, category_id: int, author_id: int) -> Post:
+    def create_(self, db: Session, *, obj_in: PostCreate, category, author_id: int) -> Post:
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data, category_id=category_id, author_id=author_id)
+        print(obj_in_data)
+        if "category" in obj_in_data:
+            del obj_in_data['category']
+        db_obj = self.model(**obj_in_data, author_id=author_id, category=category)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -35,6 +38,20 @@ class CRUDPost(CRUDBase[Post, PostCreate, PostUpdate]):
         posts = posts.options(joinedload(self.model.category))
         count = posts.count()
         return posts.all(), count
+
+    def get_multi_by_user(self, db: Session, *, user: User, skip: int = 0, limit: int = 100,
+                          order_by: str = "created_at"):
+        query = (
+            db.query(self.model)
+            .filter(self.model.author_id == user.id)
+            .options(joinedload(self.model.category))
+            .order_by(getattr(self.model, order_by))
+            .limit(limit)
+            .offset(skip)
+        )
+        posts = query.all()
+        count = query.count()
+        return posts, count
 
     def update(self, db: Session, *, db_obj: Post, obj_in: Union[PostUpdate, Dict[str, Any]]) -> Post:
         obj_data = jsonable_encoder(db_obj)
