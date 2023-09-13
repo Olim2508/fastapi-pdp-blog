@@ -23,7 +23,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
   nginx-proxy:
     container_name: nginx-proxy
-    platform: linux/amd64
+#    platform: linux/amd64
     build:
       context: .
       dockerfile: docker/prod/nginx/staging/Dockerfile
