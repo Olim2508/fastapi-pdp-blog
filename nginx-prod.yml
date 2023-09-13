@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: docker/prod/web/Dockerfile
+      dockerfile: docker/prod/web/prod.Dockerfile
 #    platform: linux/amd64
     volumes:
       - ./app/:/usr/src/web/
