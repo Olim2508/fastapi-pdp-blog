@@ -13,6 +13,8 @@ services:
     restart: unless-stopped
     networks:
       - separated_network
+    depends_on:
+      - db
   db:
     image: postgres:13
     env_file:
@@ -39,7 +41,7 @@ services:
       - vhost:/etc/nginx/vhost.d
       - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
-      - web
+      - app
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     env_file:
