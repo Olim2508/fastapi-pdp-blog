@@ -36,3 +36,9 @@ Run tests before making commit
 ```
 cd app && python -m pytest
 ```
+
+deploy command with nginx is:
+```
+docker-compose -f nginx-prod.yml up -d --build
+```
+
