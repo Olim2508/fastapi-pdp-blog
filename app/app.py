@@ -36,6 +36,7 @@ app.add_middleware(
         "https://blog.olim.space/",
         "https://blog.olim.space",
         "https://pdp-react-blog-mf9fqc1be-olim2508s-projects.vercel.app/",
+        "https://pdp-react-blog.vercel.app/",
     ],
     allow_credentials=True,
     allow_methods=["*"],
